@@ -1,5 +1,5 @@
 {
-  "name": "hello-k8s-app",
+  "name": "hello-k8s-next-app",
   "version": "0.1.0",
   "private": true,
   "scripts": {
