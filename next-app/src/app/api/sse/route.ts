@@ -6,6 +6,7 @@ export async function GET(request:Request){
   try{
     const {readable,writable}=new TransformStream();
     const writer = writable.getWriter();
+    const textEncoder = new TextEncoder();
 
     const text = '夜空に広がる無数の星々の中、ひときわ明るく輝く星がありました。'
 
@@ -13,7 +14,7 @@ export async function GET(request:Request){
     const intervalId = setInterval(() => {
       if (index < text.length) {
         writer.write(
-          new TextEncoder().encode(
+          textEncoder.encode(
             `data: ${text[index]}\n\n`
           )
         )
@@ -21,7 +22,7 @@ export async function GET(request:Request){
       } else {
         // ChatGPTっぽく終端文字を挿入
         writer.write(
-          new TextEncoder().encode(
+          textEncoder.encode(
             `data: [DONE]\n\n`
           )
         )
