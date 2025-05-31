@@ -2,13 +2,15 @@ import { NextResponse } from 'next/server';
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 
-export async function GET(request:Request){
+export async function GET(request:Request,{params}: { params: Promise<{ id: string }>}){
   try{
+    const {id}=await params;
+    
     const {readable,writable}=new TransformStream();
     const writer = writable.getWriter();
     const textEncoder = new TextEncoder();
 
-    const text = '夜空に広がる無数の星々の中、ひときわ明るく輝く星がありました。'
+    const text = `${id} 夜空に広がる無数の星々の中、ひときわ明るく輝く星がありました。`
 
       let index = 0;
     const intervalId = setInterval(() => {
@@ -47,9 +49,9 @@ export async function GET(request:Request){
       }
     })
 
-  }catch(error){
+  }catch(error:any){
     return NextResponse.json({
-      message: "Error whoami"
+      message: error.message || "unknown error"
     },{
       status:500,
     });
