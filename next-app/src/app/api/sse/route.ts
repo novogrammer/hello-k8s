@@ -1,8 +1,7 @@
 import { NextResponse } from 'next/server';
-import type { NextApiRequest, NextApiResponse } from 'next'
 
 
-export async function GET(request:Request){
+export async function GET(/* request:Request */){
   try{
     const {readable,writable}=new TransformStream();
     const writer = writable.getWriter();
@@ -47,7 +46,7 @@ export async function GET(request:Request){
       }
     })
 
-  }catch(error){
+  }catch/* (error) */{
     return NextResponse.json({
       message: "Error whoami"
     },{

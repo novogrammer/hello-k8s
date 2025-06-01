@@ -1,5 +1,4 @@
 import { NextResponse } from 'next/server';
-import type { NextApiRequest, NextApiResponse } from 'next'
 
 
 export async function GET(request:Request,{params}: { params: Promise<{ id: string }>}){
@@ -49,12 +48,21 @@ export async function GET(request:Request,{params}: { params: Promise<{ id: stri
       }
     })
 
-  }catch(error:any){
-    return NextResponse.json({
-      message: error.message || "unknown error"
-    },{
-      status:500,
-    });
+  }catch(error:unknown){
+    if(error instanceof Error){
+      return NextResponse.json({
+        message: error.message
+      },{
+        status:500,
+      });
+    }else{
+      return NextResponse.json({
+        message: "unknown error"
+      },{
+        status:500,
+      });
+
+    }
   }  
 }
 

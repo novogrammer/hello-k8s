@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 
-
+interface RequestData{
+  message:string;
+}
 
 interface ResponseDataOk{
   ok:true;
@@ -16,13 +18,14 @@ type ResponseData =
 
 export async function POST(request:Request){
   try{
+    const requestData = await request.json() as RequestData;
     const responseData:ResponseData={
       ok:true,
-      id:"1",
+      id:requestData.message,
     };
     return NextResponse.json(responseData);
 
-  }catch(error){
+  }catch/* (error) */{
     return NextResponse.json({
       ok: false,
       message: "Error whoami"

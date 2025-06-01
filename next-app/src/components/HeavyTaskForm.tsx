@@ -62,8 +62,8 @@ export default function HeavyTaskForm(){
       }
       
 
-    }catch(error:any){
-      if(error.message){
+    }catch(error){
+      if(error instanceof Error){
         setErrorMessage(()=>error.message as string)
       }else{
         setErrorMessage(()=>""+error);
