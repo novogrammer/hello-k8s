@@ -1,0 +1,20 @@
+services:
+  next-app:
+    container_name: hello-k8s-next-app-dev
+    build:
+      context: ./next-app
+      dockerfile: dev.Dockerfile
+
+    # Set environment variables directly in the compose file
+    # environment:
+    #   NEXT_PUBLIC_ENV_VARIABLE: ${NEXT_PUBLIC_ENV_VARIABLE}
+
+    volumes:
+      - ./next-app/src:/app/src
+      - ./next-app/public:/app/public
+    restart: unless-stopped
+    ports:
+      - 3000:3000
+    # depends_on:
+    #   redis:
+    #     condition: service_healthy

@@ -1,5 +1,11 @@
 FROM node:20.18.0-bookworm AS base
 
+# RUN apt-get update && apt-get install -y \
+#     lame \
+#     && apt-get clean \
+#     && rm -rf /var/lib/apt/lists/*
+
+
 FROM base AS deps
 WORKDIR /app
 
