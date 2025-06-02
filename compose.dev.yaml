@@ -1,6 +1,7 @@
 services:
   next-app:
     container_name: hello-k8s-next-app-dev
+    image: hello-k8s-next-app-dev
     build:
       context: ./next-app
       dockerfile: dev.Dockerfile
