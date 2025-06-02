@@ -1,68 +1,33 @@
-import { NextResponse } from 'next/server';
+import { sendEventStream } from "../../../../libs/event_stream_utils";
+import { makeErrorResponse } from "../../../../libs/api_utils";
 
 
 export async function GET(request:Request,{params}: { params: Promise<{ id: string }>}){
   try{
     const {id}=await params;
     
-    const {readable,writable}=new TransformStream();
-    const writer = writable.getWriter();
-    const textEncoder = new TextEncoder();
-
     const text = `${id} 夜空に広がる無数の星々の中、ひときわ明るく輝く星がありました。`
 
-      let index = 0;
-    const intervalId = setInterval(() => {
+    let index = 0;
+    return sendEventStream(async ()=>{
       if (index < text.length) {
-        writer.write(
-          textEncoder.encode(
-            `data: ${text[index]}\n\n`
-          )
-        )
+        // awaitすることもありそう。
+        const data=text[index];
         index++;
+        return {
+          data,
+          isDone:false,
+        }
       } else {
-        // ChatGPTっぽく終端文字を挿入
-        writer.write(
-          textEncoder.encode(
-            `data: [DONE]\n\n`
-          )
-        )
-        clearInterval(intervalId);
-        // クライアントからの切断を期待する。サーバーから切断するとエラーになる。
-        setTimeout(()=>{
-          if(!writer.closed){
-            writer.close();
-          }
-        },1000);
+        return {
+          isDone:true,
+        };
       }
-    }, 100);
 
-
-    return new Response(readable,{
-      headers:{
-        'Content-Type': 'text/event-stream',
-        'Cache-Control': 'no-cache',
-        'Connection': 'keep-alive',
-        // gzip圧縮させない
-        'Content-Encoding': 'none',
-      }
-    })
+    });
 
   }catch(error:unknown){
-    if(error instanceof Error){
-      return NextResponse.json({
-        message: error.message
-      },{
-        status:500,
-      });
-    }else{
-      return NextResponse.json({
-        message: "unknown error"
-      },{
-        status:500,
-      });
-
-    }
+    return makeErrorResponse(error);
   }  
 }
 
