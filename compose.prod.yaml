@@ -14,8 +14,27 @@ services:
     ports:
       - 3000:3000
     depends_on:
+      backend:
+        condition: service_healthy
+  backend:
+    container_name: hello-k8s-backend
+    image: hello-k8s-backend
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    volumes:
+      - ./backend/src:/app/src
+    restart: always
+    # ports:
+    #   - 4000:4000
+    depends_on:
       redis:
         condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://backend:4000/health"]
+      interval: 2s
+      timeout: 5s
+      retries: 15
   redis:
     image: redis:7.4.1-alpine
     # ports:
