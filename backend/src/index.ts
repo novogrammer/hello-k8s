@@ -96,8 +96,9 @@ app.get('/messages/:id',(req: Request, res: Response)=>{
 app.post('/jobs', async (req: Request, res: Response) => {
   const { message } = req.body;
   const job = await jobQueue.add('longTask', message, {
-    removeOnComplete: true,
-    removeOnFail: true,
+    removeOnComplete: {
+      count:1000,
+    },
   });
   if(!job){
     res.status(500).json({ message: 'jobQueue.add() failed' });
@@ -119,12 +120,12 @@ app.get('/jobs/:id', async (req: Request, res: Response) => {
   const id = req.params.id;
   const job = await jobQueue.getJob(id);
   if (!job) {
-    res.status(404).json({ message: 'not found' });
+    res.status(404).json({ message: `job id=${id} not found` });
     return;
   }
 
   const state = await job.getState();
-  const progress = await job.progress();
+  const progress = job.progress;
   let result = null;
   let failedReason = null;
   if (state === 'completed') result = await job.returnvalue;
