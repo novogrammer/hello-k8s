@@ -1,0 +1,17 @@
+{
+    auto_https off
+}
+
+:80 {
+    handle /api/* {
+        reverse_proxy backend:4000
+    }
+    
+    handle /admin/* {
+        reverse_proxy backend:4000
+    }
+    
+    handle {
+        reverse_proxy next-app:3000
+    }
+}
