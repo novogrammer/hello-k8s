@@ -1,4 +1,19 @@
 services:
+  caddy:
+    container_name: hello-k8s-caddy-dev
+    image: caddy:2-alpine
+    restart: unless-stopped
+    ports:
+      - 8080:80
+    volumes:
+      - ./caddy/Caddyfile.dev:/etc/caddy/Caddyfile
+      - ./caddy/data:/data
+      - ./caddy/config:/config
+    depends_on:
+      next-app:
+        condition: service_started
+      backend:
+        condition: service_healthy
   next-app:
     container_name: hello-k8s-next-app-dev
     image: hello-k8s-next-app-dev
@@ -14,8 +29,6 @@ services:
       - ./next-app/src:/app/src
       - ./next-app/public:/app/public
     restart: unless-stopped
-    ports:
-      - 3000:3000
     depends_on:
       backend:
         condition: service_healthy
