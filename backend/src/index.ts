@@ -19,19 +19,19 @@ createBullBoard({
 app.use('/admin/queues', serverAdapter.getRouter());
 
 
-app.get('/health', (_req: Request, res: Response) => {
+app.get('/api/health', (_req: Request, res: Response) => {
   res.sendStatus(200);
   return;
 });
 
-app.get('/whoami',(req: Request, res: Response)=>{
+app.get('/api/whoami',(req: Request, res: Response)=>{
   res.status(200).json({
     hostname: process.env.HOSTNAME || "unknown",
     localAddress: req.socket.localAddress || "unknown",
   });
 });
 
-app.get('/sse',(req: Request, res: Response)=>{
+app.get('/api/sse',(req: Request, res: Response)=>{
   res.setHeader('Content-Type', 'text/event-stream');
   res.setHeader('Cache-Control', 'no-cache');
   res.setHeader('Connection', 'keep-alive');
@@ -62,7 +62,7 @@ app.get('/sse',(req: Request, res: Response)=>{
 
 });
 
-app.post('/messages',(req: Request, res: Response)=>{
+app.post('/api/messages',(req: Request, res: Response)=>{
   const { message } = req.body;
   res.status(202).json({
     ok:true,
@@ -70,7 +70,7 @@ app.post('/messages',(req: Request, res: Response)=>{
   });
 });
 
-app.get('/messages/:id',(req: Request, res: Response)=>{
+app.get('/api/messages/:id',(req: Request, res: Response)=>{
 
   res.setHeader('Content-Type', 'text/event-stream');
   res.setHeader('Cache-Control', 'no-cache');
@@ -105,8 +105,8 @@ app.get('/messages/:id',(req: Request, res: Response)=>{
 
 
 // ── ジョブ登録エンドポイント ──
-// POST /jobs で body に message を渡すと即 id を返す
-app.post('/jobs', async (req: Request, res: Response) => {
+// POST /api/jobs で body に message を渡すと即 id を返す
+app.post('/api/jobs', async (req: Request, res: Response) => {
   const { message } = req.body;
   const job = await jobQueue.add('longTask', message, {
     removeOnComplete: {
@@ -128,8 +128,8 @@ app.post('/jobs', async (req: Request, res: Response) => {
 });
 
 // ── ジョブ状態取得エンドポイント ──
-// GET /jobs/:id で現状を返す
-app.get('/jobs/:id', async (req: Request, res: Response) => {
+// GET /api/jobs/:id で現状を返す
+app.get('/api/jobs/:id', async (req: Request, res: Response) => {
   const id = req.params.id;
   const job = await jobQueue.getJob(id);
   if (!job) {
@@ -149,8 +149,8 @@ app.get('/jobs/:id', async (req: Request, res: Response) => {
 });
 
 // ── SSE エンドポイント ──
-// GET /jobs/:id/sse で進捗や完了通知をリアルタイムに流す
-app.get('/jobs/:id/sse', async (req: Request, res: Response) => {
+// GET /api/jobs/:id/sse で進捗や完了通知をリアルタイムに流す
+app.get('/api/jobs/:id/sse', async (req: Request, res: Response) => {
   const id = req.params.id;
 
   // SSE ヘッダ
