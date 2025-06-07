@@ -1,9 +1,22 @@
 import express, { Request, Response } from 'express';
 import { jobQueue, queueEvents } from './bull';
 import { JobProgress } from 'bullmq';
+import { createBullBoard } from '@bull-board/api';
+import { ExpressAdapter } from '@bull-board/express';
+import { BullMQAdapter } from '@bull-board/api/bullMQAdapter';
 
 const app = express();
 app.use(express.json());
+
+const serverAdapter = new ExpressAdapter();
+serverAdapter.setBasePath('/admin/queues');
+
+createBullBoard({
+  queues: [new BullMQAdapter(jobQueue)],
+  serverAdapter,
+});
+
+app.use('/admin/queues', serverAdapter.getRouter());
 
 
 app.get('/health', (_req: Request, res: Response) => {
