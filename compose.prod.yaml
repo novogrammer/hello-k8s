@@ -1,7 +1,7 @@
 services:
   caddy:
     container_name: hello-k8s-caddy
-    image: caddy:2-alpine
+    image: caddy:2.10.0-alpine
     restart: always
     ports:
       - 80:80
