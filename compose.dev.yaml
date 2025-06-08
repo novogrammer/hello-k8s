@@ -6,7 +6,7 @@ services:
     ports:
       - 8080:80
     volumes:
-      - ./caddy/Caddyfile.dev:/etc/caddy/Caddyfile
+      - ./caddy/caddy:/etc/caddy:ro
       - ./caddy/data:/data
       - ./caddy/config:/config
     depends_on:
@@ -29,6 +29,8 @@ services:
       - ./next-app/src:/app/src
       - ./next-app/public:/app/public
     restart: unless-stopped
+    ports:
+      - 3000:3000
     depends_on:
       backend:
         condition: service_healthy
