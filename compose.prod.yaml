@@ -2,6 +2,9 @@ services:
   caddy:
     container_name: hello-k8s-caddy
     image: caddy:2.10.0-alpine
+    environment:
+      - TLS_EMAIL=${TLS_EMAIL}
+      - DOMAIN_NAME=${DOMAIN_NAME}
     restart: always
     ports:
       - 80:80
