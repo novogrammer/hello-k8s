@@ -30,6 +30,8 @@ services:
     #   NEXT_PUBLIC_ENV_VARIABLE: ${NEXT_PUBLIC_ENV_VARIABLE}
 
     restart: always
+    # ports:
+    #   - 3000:3000
     depends_on:
       backend:
         condition: service_healthy
@@ -44,11 +46,14 @@ services:
     restart: always
     # ports:
     #   - 4000:4000
+    environment:
+      - MINIO_ROOT_USER=${MINIO_ROOT_USER}
+      - MINIO_ROOT_PASSWORD=${MINIO_ROOT_PASSWORD}
     depends_on:
       redis:
         condition: service_healthy
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://backend:4000/api/health"]
+      test: ["CMD", "curl", "-f", "http://localhost:4000/api/health"]
       interval: 2s
       timeout: 5s
       retries: 15
@@ -64,3 +69,21 @@ services:
       interval: 2s
       timeout: 5s
       retries: 15
+  minio:
+    container_name: hello-k8s-minio
+    image: minio/minio:RELEASE.2025-05-24T17-08-30Z
+    volumes:
+      - "./minio/data:/data"
+    restart: unless-stopped
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    environment:
+      - MINIO_ROOT_USER=${MINIO_ROOT_USER}
+      - MINIO_ROOT_PASSWORD=${MINIO_ROOT_PASSWORD}
+    command: minio server --console-address ":9001" /data
+    healthcheck:
+      test: [ "CMD", "mc", "ready", "local" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5

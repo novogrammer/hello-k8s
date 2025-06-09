@@ -1,11 +1,12 @@
 import express, { Request, Response } from 'express';
-import { jobQueue, queueEvents } from './bull/queue';
+import { jobQueue, makeJobId, queueEvents } from './bull/queue';
 import { JobProgress } from 'bullmq';
 import { createBullBoard } from '@bull-board/api';
 import { ExpressAdapter } from '@bull-board/express';
 import { BullMQAdapter } from '@bull-board/api/bullMQAdapter';
 // ひとまずworkerも同じプロセスで動かす
 import './bull/worker';
+import { clientPromise, MINIO_BUCKET_NAME } from './minio/client';
 
 const app = express();
 app.use(express.json());
@@ -110,17 +111,26 @@ app.get('/api/messages/:id',(req: Request, res: Response)=>{
 // POST /api/jobs で body に message を渡すと即 id を返す
 app.post('/api/jobs', async (req: Request, res: Response) => {
   const { message } = req.body;
+
+  const jobId = makeJobId();
+
+  const client = await clientPromise;
+  
+  await client.putObject(MINIO_BUCKET_NAME,`${jobId}/input.txt`,message);
+  
+
   const job = await jobQueue.add('longTask', message, {
     removeOnComplete: {
       count:1000,
     },
+    jobId,
   });
   if(!job){
     res.status(500).json({ message: 'jobQueue.add() failed' });
     return;
   }
-  if(!job.id){
-    res.status(500).json({ message: 'job.is is null' });
+  if(job.id !== jobId){
+    res.status(500).json({ message: 'job.id !== jobId' });
     return;
   }
   res.status(202).json({
