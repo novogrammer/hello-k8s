@@ -1,9 +1,11 @@
 import express, { Request, Response } from 'express';
-import { jobQueue, queueEvents } from './bull';
+import { jobQueue, queueEvents } from './bull/queue';
 import { JobProgress } from 'bullmq';
 import { createBullBoard } from '@bull-board/api';
 import { ExpressAdapter } from '@bull-board/express';
 import { BullMQAdapter } from '@bull-board/api/bullMQAdapter';
+// ひとまずworkerも同じプロセスで動かす
+import './bull/worker';
 
 const app = express();
 app.use(express.json());
