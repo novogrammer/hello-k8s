@@ -50,7 +50,7 @@ services:
       - MINIO_ROOT_USER=${MINIO_ROOT_USER}
       - MINIO_ROOT_PASSWORD=${MINIO_ROOT_PASSWORD}
     command:
-      "npm run dev"
+      "npm run dev:express"
     depends_on:
       redis:
         condition: service_healthy
@@ -61,6 +61,25 @@ services:
       interval: 2s
       timeout: 5s
       retries: 15
+  worker:
+    container_name: hello-k8s-worker-dev
+    image: hello-k8s-backend
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    volumes:
+      - ./backend/src:/app/src
+    restart: unless-stopped
+    environment:
+      - MINIO_ROOT_USER=${MINIO_ROOT_USER}
+      - MINIO_ROOT_PASSWORD=${MINIO_ROOT_PASSWORD}
+    command:
+      "npm run dev:worker"
+    depends_on:
+      redis:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
   redis:
     image: redis:7.4.1-alpine
     # ports:
