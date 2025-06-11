@@ -2,5 +2,6 @@ resources:
   - minio
   - redis
   - backend
+  - worker
   - next-app
   - caddy
