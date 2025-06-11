@@ -1,0 +1,9 @@
+secretGenerator:
+  - name: minio-secret
+    envs:
+      - .env
+
+resources:
+  - deployment.yaml
+  - service.yaml
+  - pvc.yaml
