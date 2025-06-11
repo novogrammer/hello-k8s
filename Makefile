@@ -6,7 +6,7 @@ build:
 	docker build -t hello-k8s-backend:latest backend -f backend/Dockerfile
 
 # Select overlay directory via OVERLAY (default: dev)
-OVERLAY ?= dev
+OVERLAY ?= prod
 OVERLAY_DIR = k8s/overlays/$(OVERLAY)
 
 deploy:
