@@ -12,6 +12,21 @@ spec:
       labels:
         app: backend
     spec:
+      initContainers:
+        - name: wait-for-deps
+          image: busybox:1.36
+          command:
+            - sh
+            - -c
+            - |
+              until nc -z redis 6379; do
+                echo "Waiting for redis...";
+                sleep 2;
+              done;
+              until nc -z minio 9000; do
+                echo "Waiting for minio...";
+                sleep 2;
+              done;
       containers:
         - name: backend
           image: hello-k8s-backend
