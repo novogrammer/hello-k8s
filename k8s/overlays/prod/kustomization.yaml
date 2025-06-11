@@ -7,4 +7,5 @@ secretGenerator:
 patchesStrategicMerge:
   - backend/deployment.yaml
   - worker/deployment.yaml
+  - next-app/deployment.yaml
   - caddy/deployment.yaml
