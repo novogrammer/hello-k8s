@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+spec:
+  template:
+    spec:
+      containers:
+        - name: backend
+          command:
+            - npm
+            - run
+            - dev
+          volumeMounts:
+            - name: backend-src
+              mountPath: /app/src
+              readOnly: false
+      volumes:
+        - name: backend-src
+          hostPath:
+            path: /workspace/hello-k8s/backend/src
+            type: Directory
