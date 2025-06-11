@@ -1,0 +1,12 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: caddy
+spec:
+  template:
+    spec:
+      containers:
+        - name: caddy
+          envFrom:
+            - secretRef:
+                name: caddy-secret
