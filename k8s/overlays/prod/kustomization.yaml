@@ -1,3 +1,8 @@
 resources:
   - ../../base
-  - caddy
+secretGenerator:
+  - name: caddy-secret
+    envs:
+      - caddy/.env
+patchesStrategicMerge:
+  - caddy/deployment.yaml
