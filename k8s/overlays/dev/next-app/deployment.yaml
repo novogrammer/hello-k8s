@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: next-app
+spec:
+  template:
+    spec:
+      containers:
+        - name: next-app
+          image: hello-k8s-next-app-dev
+          volumeMounts:
+            - name: next-app-src
+              mountPath: /app/src
+              readOnly: false
+            - name: next-app-public
+              mountPath: /app/public
+              readOnly: false
+      volumes:
+        - name: next-app-src
+          hostPath:
+            path: /workspace/hello-k8s/next-app/src
+            type: Directory
+        - name: next-app-public
+          hostPath:
+            path: /workspace/hello-k8s/next-app/public
+            type: Directory
