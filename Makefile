@@ -2,6 +2,7 @@
 build:
 	@eval $$(minikube docker-env) ;\
 	docker build -t hello-k8s-next-app:latest next-app -f next-app/prod.Dockerfile;\
+	docker build -t hello-k8s-next-app-dev:latest next-app -f next-app/dev.Dockerfile;\
 	docker build -t hello-k8s-backend:latest backend -f backend/Dockerfile
 
 # Select overlay directory via OVERLAY (default: dev)
