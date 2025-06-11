@@ -12,6 +12,17 @@ spec:
       labels:
         app: next-app
     spec:
+      initContainers:
+        - name: wait-for-backend
+          image: busybox:1.36
+          command:
+            - sh
+            - -c
+            - |
+              until nc -z backend 4000; do
+                echo "Waiting for backend...";
+                sleep 2;
+              done;
       containers:
         - name: next-app
           image: hello-k8s-next-app
