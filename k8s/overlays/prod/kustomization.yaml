@@ -8,3 +8,4 @@ patchesStrategicMerge:
   - backend/deployment.yaml
   - worker/deployment.yaml
   - caddy/deployment.yaml
+  - next-app/deployment.yaml
