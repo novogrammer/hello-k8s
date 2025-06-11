@@ -2,3 +2,4 @@ resources:
   - minio
   - redis
   - backend
+  - next-app

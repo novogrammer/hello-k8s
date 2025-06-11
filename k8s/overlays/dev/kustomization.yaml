@@ -2,3 +2,4 @@ resources:
   - ../../base
 patchesStrategicMerge:
   - backend/deployment.yaml
+  - next-app/deployment.yaml
