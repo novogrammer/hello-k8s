@@ -37,7 +37,7 @@ services:
         condition: service_healthy
   backend:
     container_name: hello-k8s-backend-dev
-    image: hello-k8s-backend-dev
+    image: hello-k8s-backend
     build:
       context: ./backend
       dockerfile: Dockerfile
