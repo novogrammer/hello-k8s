@@ -50,7 +50,7 @@
 
 ## minikube での利用
 
-Makefile のタスクを利用してイメージのビルドとデプロイを行います。kustomize は kubectl に統合されているので、`minikube` と `kubectl` がインストールされている必要があります。
+Makefile のタスクを利用してイメージのビルドとデプロイを行います。`minikube` と `kubectl` がインストールされている必要があります。
 
 ### 開発環境 (dev overlay)
 1. minikube の Docker デーモン上でイメージをビルドします。
