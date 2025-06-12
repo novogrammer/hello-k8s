@@ -9,9 +9,9 @@
 ├── k8s/              # Kubernetes マニフェスト
 ├── next-app/         # Next.js アプリケーション
 ├── backend/          # Express API と worker
-├── caddy/            # Caddy の設定
-├── minio/            # MinIO のデータ保存先
-├── redis/            # Redis のデータ保存先
+├── caddy/            # Docker Compose 用の Caddy 設定
+├── minio/            # Docker Compose 用の MinIO データ保存先
+├── redis/            # Docker Compose 用の Redis データ保存先
 ├── compose.dev.yaml  # 開発用 Docker Compose
 ├── compose.prod.yaml # 本番用 Docker Compose
 └── Makefile          # minikube 用のユーティリティ
