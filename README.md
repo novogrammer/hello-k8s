@@ -1,6 +1,6 @@
 # Hello Kubernetes Example
 
-このリポジトリは Next.js 製のフロントエンドと Node.js 製のバックエンドからなるサンプルアプリです。Redis と MinIO を利用しており、ローカル開発用の Docker Compose 設定と minikube 用の Kubernetes マニフェストが含まれています。
+このリポジトリは Next.js 製のフロントエンドと Node.js 製のバックエンドからなるサンプルアプリです。Docker Compose をもとに Kubernetes 環境を構築する習作として作成されています。Redis と MinIO を利用しており、ローカル開発用の Docker Compose 設定と minikube 用の Kubernetes マニフェストが含まれています。
 
 ## ファイル構成
 
