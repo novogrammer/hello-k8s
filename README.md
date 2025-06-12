@@ -34,7 +34,10 @@
    - バックエンド API: <http://localhost:4000>
    - MinIO コンソール: <http://localhost:9001>
 
-`CTRL+C` で停止し、終了時は `docker compose down` を実行してください。
+4. 停止する場合は次を実行します。
+   ```bash
+   docker compose -f compose.dev.yaml down
+   ```
 
 ### 本番環境 (prod)
 1. 同様に `.env` を用意します。
