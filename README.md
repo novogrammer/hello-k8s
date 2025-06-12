@@ -26,8 +26,9 @@
    ```
 2. 開発モードでコンテナを起動します。
    ```bash
-   docker compose -f compose.dev.yaml up --build
+   docker compose -f compose.dev.yaml up --build -d
    ```
+   バックグラウンドで実行するため `-d` オプションを付けています。
 3. 各サービスにアクセスします。
    - フロントエンド: <http://localhost:3000>
    - バックエンド API: <http://localhost:4000>
