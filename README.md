@@ -30,6 +30,7 @@
    ```
    バックグラウンドで実行するため `-d` オプションを付けています。
 3. 各サービスにアクセスします。
+   - Caddy: <https://localhost/>
    - フロントエンド: <http://localhost:3000>
    - バックエンド API: <http://localhost:4000>
    - MinIO コンソール: <http://localhost:9001>
