@@ -57,15 +57,19 @@
 Makefile のタスクを利用してイメージのビルドとデプロイを行います。kustomize は kubectl に統合されているので、`minikube` と `kubectl` がインストールされている必要があります。
 
 ### 開発環境 (dev overlay)
-1. minikube の Docker デーモン上でイメージをビルドします。
+1. ホットリロードを有効にするため、次を別ターミナルで実行します。
+   ```bash
+   minikube mount "$(pwd)":/workspace/hello-k8s
+   ```
+2. minikube の Docker デーモン上でイメージをビルドします。
    ```bash
    make build
    ```
-2. 開発用オーバーレイをデプロイします。
+3. 開発用オーバーレイをデプロイします。
    ```bash
    make deploy OVERLAY=dev
    ```
-3. 後片付けをする場合:
+4. 後片付けをする場合:
    ```bash
    make clean OVERLAY=dev
    ```
