@@ -9,7 +9,7 @@
 ├── k8s/              # Kubernetes マニフェスト
 ├── next-app/         # Next.js アプリケーション
 ├── backend/          # Express API と worker
-├── caddy/            # Docker Compose 用の Caddy 設定
+├── caddy/            # Docker Compose 用のリバースプロキシ設定
 ├── minio/            # Docker Compose 用の MinIO データ保存先
 ├── redis/            # Docker Compose 用の Redis データ保存先
 ├── compose.dev.yaml  # 開発用 Docker Compose
@@ -30,7 +30,7 @@
    ```
    バックグラウンドで実行するため `-d` オプションを付けています。
 3. 各サービスにアクセスします。
-   - Caddy: <https://localhost/>
+   - リバースプロキシ: <https://localhost/>
    - フロントエンド: <http://localhost:3000>
    - バックエンド API: <http://localhost:4000>
    - MinIO コンソール: <http://localhost:9001>
