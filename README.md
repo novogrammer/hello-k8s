@@ -56,6 +56,12 @@
 
 Makefile のタスクを利用してイメージのビルドとデプロイを行います。kustomize は kubectl に統合されているので、`minikube` と `kubectl` がインストールされている必要があります。
 
+まず `k8s` ディレクトリ内の `.env.example` をコピーして `.env` を作成しておきます。
+```bash
+cp k8s/base/minio/.env.example k8s/base/minio/.env
+cp k8s/overlays/prod/caddy/.env.example k8s/overlays/prod/caddy/.env
+```
+
 ### 開発環境 (dev overlay)
 1. ホットリロードを有効にするため、次を別ターミナルで実行します。
    ```bash
